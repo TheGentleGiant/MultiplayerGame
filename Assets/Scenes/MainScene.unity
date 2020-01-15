@@ -337,6 +337,7 @@ GameObject:
   - component: {fileID: 1537046750}
   - component: {fileID: 1537046749}
   - component: {fileID: 1537046748}
+  - component: {fileID: 1537046752}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -351,7 +352,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1537046747}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
   m_Name: 
@@ -414,7 +415,7 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   runInBackground: 1
   startOnHeadless: 1
-  serverTickRate: 64
+  serverTickRate: 30
   showDebugMessages: 0
   offlineScene: 
   onlineScene: 
@@ -442,6 +443,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1537046752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537046747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bc6960ea9f12da4c94030cab42f9bbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showMenu: 1
+  _texture: {fileID: 2800000, guid: bcc8fc05f1f924531a65f39394c0b703, type: 3}
 --- !u!1 &1794720701
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,9 +1,6 @@
-﻿using System;
-using Mirror;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Mirror;
 using UnityEngine;
-using UnityEngine.EventSystems;
+
 public class PlayerSimple : NetworkBehaviour
 {
     [SerializeField] private GameObject _projectilePrefab = null;
@@ -11,12 +8,14 @@ public class PlayerSimple : NetworkBehaviour
     {
         base.OnStartLocalPlayer();
     }
+
     void Start()
     {
         //StartCoroutine(MoveAround());
     }
 
- /*   private Vector3 ReturnRandomPos()
+    /*
+    private Vector3 ReturnRandomPos()
     {
         return transform.position += new Vector3(Random.Range(-4f, 4f), Random.Range(-4f, 4f), 0f);
     }
@@ -31,46 +30,49 @@ public class PlayerSimple : NetworkBehaviour
             yield return wait;
         }
     }
-    
-*/
- private void FixedUpdate()
- {
-     if (Input.GetKey(key: KeyCode.W))
-     {
-         transform.Translate(0, 0, 1f);
-     }
+    */
 
-     if (Input.GetKey(key: KeyCode.S))
-     {
-         transform.Translate(0, 0, -1f);
-     }
+    private void FixedUpdate()
+    {
+        if (Input.GetKey(key: KeyCode.W))
+        {
+            transform.Translate(0, 0, 1f);
+        }
 
-     if (Input.GetKey(key: KeyCode.D))
-     {
-         transform.Translate(1f, 0, 0);
-     }
+        if (Input.GetKey(key: KeyCode.S))
+        {
+            transform.Translate(0, 0, -1f);
+        }
 
-     if (Input.GetKey(key: KeyCode.A))
-     {
-         transform.Translate(-1, 0, 0);
-     }
+        if (Input.GetKey(key: KeyCode.D))
+        {
+            transform.Translate(1f, 0, 0);
+        }
 
-     if (Input.GetMouseButtonDown(0) && hasAuthority)
-     {
+        if (Input.GetKey(key: KeyCode.A))
+        {
+            transform.Translate(-1, 0, 0);
+        }
+
+        if (Input.GetMouseButtonDown(0) && hasAuthority)
+        {
         Cmd_InstantiateNewFireBall();
-     }
- }
+        }
+    }
 
- [Command]
- private void Cmd_InstantiateNewFireBall()
- {
-     GameObject p = Instantiate(_projectilePrefab, transform.position,
-         Quaternion.identity);
+    [Command]
+    private void Cmd_InstantiateNewFireBall()
+    {
+        GameObject projectile = Instantiate(_projectilePrefab, transform.position,
+            Quaternion.identity);
+
+        var controller = projectile.GetComponent<ProjectileController>();
      
-     NetworkServer.Spawn(p);
- }
- 
- 
- 
- 
+        if (controller != null)
+        {
+            controller.Owner = gameObject;
+        }
+
+        NetworkServer.Spawn(projectile);
+    }
 }

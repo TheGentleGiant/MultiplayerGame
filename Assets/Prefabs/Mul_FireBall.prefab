@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7815951439743437878}
   - component: {fileID: 7815951439743437877}
   - component: {fileID: 7815951439743437876}
+  - component: {fileID: -4949352393862850868}
   - component: {fileID: 1962980405342602617}
-  - component: {fileID: 1283450419614531618}
-  - component: {fileID: -6211113391082041727}
+  - component: {fileID: 3441241106791693505}
   m_Layer: 0
   m_Name: Mul_FireBall
   m_TagString: Untagged
@@ -90,11 +90,27 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7815951439743437875}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &-4949352393862850868
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7815951439743437875}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!114 &1962980405342602617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,9 +124,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverOnly: 0
-  m_AssetId: fd2e1dfe6f276b743b2fc51deddb160e
-  m_SceneId: 0
---- !u!114 &1283450419614531618
+  m_AssetId: 
+  m_SceneId: 351042393
+--- !u!114 &3441241106791693505
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,25 +135,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7815951439743437875}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Script: {fileID: 11500000, guid: c4f13a51725fac9459b121b925fe7fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  compressRotation: 1
-  clientAuthority: 0
---- !u!114 &-6211113391082041727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7815951439743437875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9594e781ccce71d4ba06cd17a7d7913d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  Speed: 2
+  lifeTime: 5
+  speed: 5
+  damage: 10

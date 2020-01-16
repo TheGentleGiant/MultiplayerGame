@@ -27,14 +27,14 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         //Animations
-        if (Input.GetKey(KeyCode.A))
-        {
-            anim.SetBool("isRunning", true);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            anim.SetBool("isRunning", true);
-        }
+        //if (Input.GetKey(KeyCode.A))
+        //{
+        //    anim.SetBool("isRunning", true);
+        //}
+        //if (Input.GetKey(KeyCode.D))
+        //{
+        //    anim.SetBool("isRunning", true);
+        //}
         if (Input.GetButtonDown("Fire1"))
         {
             anim.SetTrigger("Cast");
@@ -63,6 +63,11 @@ public class PlayerMovement : MonoBehaviour
         if (magnitude > 0.1)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(movement.normalized, Vector3.up), 0.25f);
+            anim.SetBool("isRunning", true);
+        }
+        else if (magnitude == 0)
+        {
+            anim.SetBool("isRunning", false);
         }
     }
 }

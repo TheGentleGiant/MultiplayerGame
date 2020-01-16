@@ -654,6 +654,11 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 2408896830330768352}
+    - target: {fileID: 930724846780758712, guid: 180072697138d19438ed2ee90261ee14,
+        type: 3}
+      propertyPath: speed
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 4642932470354863850, guid: 180072697138d19438ed2ee90261ee14,
         type: 3}
       propertyPath: m_SceneId

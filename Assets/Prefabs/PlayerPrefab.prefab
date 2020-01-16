@@ -113,7 +113,7 @@ Transform:
   m_GameObject: {fileID: 6272959782674285427}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.04, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 9102900357452041845}
   m_Father: {fileID: 0}
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 473931116626423429}
-  speed: 12
+  speed: 32
   gravity: -9.81
   groundCheck: {fileID: 0}
   groundDistance: 0.4

@@ -47,7 +47,7 @@ public class ConnectionHUD : MonoBehaviour
                 if (GUILayout.Button("Server Only"))
                 {
                     _manager.StartServer();
-                }
+                } 
             }
             else
             {

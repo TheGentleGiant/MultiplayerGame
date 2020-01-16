@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -9,21 +10,24 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button _HostButton = null;
     [SerializeField] private Button _ConnectButton = null;
     [SerializeField] private Button _ServerOnlyButton = null;
+    private NetworkManager _manager;
+    [SerializeField]private GameObject _managerPrefab;
 
-    [SerializeField]private NetworkManager _manager;
-    // Start is called before the first frame update
     void Awake()
     {
-        _manager = _manager.GetComponent<NetworkManager>();
         _HostButton.GetComponent<Button>();
         _ConnectButton.GetComponent<Button>();
         _ServerOnlyButton.GetComponent<Button>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-               
+        if (NetworkManager.singleton == null)
+        {
+            GameObject _tempManager = GameObject.Instantiate(_managerPrefab);
+            _tempManager.name = "NetworkManager";
+        }
+        _manager = _managerPrefab.GetComponent<NetworkManager>();
     }
 
     public void HostLANServer()
@@ -38,7 +42,7 @@ public class MainMenu : MonoBehaviour
 
     public void ConnectToLANServer()
     {
-        if (!NetworkServer.active)
+        if (!NetworkClient.isConnected && !NetworkServer.active)
         {
             _manager.StartClient();
         }
@@ -51,10 +55,4 @@ public class MainMenu : MonoBehaviour
             _manager.StartServer();
         }
     }
-
-    //void OnHostClicked()
-    //{
-    //    HostSession();
-   //* }
-    
 }

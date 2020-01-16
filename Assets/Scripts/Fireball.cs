@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Fireball : MonoBehaviour
+using Mirror;
+public class Fireball : NetworkBehaviour
 {
     public GameObject projectile;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1")&& hasAuthority)
         {
             GameObject fireball = Instantiate(projectile, transform);
             Rigidbody rb = fireball.GetComponent<Rigidbody>();

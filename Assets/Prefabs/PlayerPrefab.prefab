@@ -112,7 +112,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6272959782674285427}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.04, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 9102900357452041845}
@@ -150,6 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11399fbeef5eed6459f4ddbc0b159508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   controller: {fileID: 473931116626423429}
   speed: 32
   gravity: -9.81
@@ -172,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 2812188433
 --- !u!114 &7455923656611544707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,5 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c7b88e13aba6c14a968f6b61e4d0f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   projectile: {fileID: 3651120570172119053, guid: 70d6826dc256fa64092e3475b79eaf12,
     type: 3}

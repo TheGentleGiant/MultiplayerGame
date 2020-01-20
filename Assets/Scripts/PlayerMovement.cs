@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
-
+//TODO: sync animations as well 
 public class PlayerMovement : NetworkBehaviour
 {
     public CharacterController controller;

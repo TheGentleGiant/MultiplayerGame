@@ -56,7 +56,7 @@ public class PlayerSimple : NetworkBehaviour
 
         if (Input.GetMouseButtonDown(0) && hasAuthority)
         {
-        Cmd_InstantiateNewFireBall();
+            Cmd_InstantiateNewFireBall();
         }
     }
 

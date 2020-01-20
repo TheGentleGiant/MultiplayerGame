@@ -11,11 +11,17 @@ public class Fireball : NetworkBehaviour
     {
         if (Input.GetButtonDown("Fire1")&& hasAuthority)
         {
-            GameObject fireball = Instantiate(projectile, transform);
-            Rigidbody rb = fireball.GetComponent<Rigidbody>();
-            fireball.transform.parent = null;
-            rb.velocity = transform.forward * 20f;
+            
+            Cmd_SyncFireBall();
         }
-
+    }
+    [Command]
+    void Cmd_SyncFireBall()
+    {
+        GameObject fireball = Instantiate(projectile, transform);
+        Rigidbody rb = fireball.GetComponent<Rigidbody>();
+        fireball.transform.parent = null;
+        rb.velocity = transform.forward * 20f;
+        NetworkServer.Spawn(fireball);
     }
 }

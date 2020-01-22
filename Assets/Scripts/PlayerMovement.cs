@@ -3,42 +3,53 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
-//TODO: sync animations as well 
 public class PlayerMovement : NetworkBehaviour
 {
     public CharacterController controller;
     public float speed = 25f;
     public float gravity = -9.81f;
-
+    [SerializeField] private float lerpRate = 1f;
     public NetworkTransform netTransform = null;
     public Transform groundCheck;
-     public float groundDistance = 0.4f;
-     public LayerMask groundMask;
- 
-     private Animator anim;
-     
-     private Vector3 velocity;
+    public float groundDistance = 0.4f;
+    public LayerMask groundMask;
+    private Animator anim;
+    private Vector3 velocity;
     private bool isGrounded;
     public bool isLocalPlayer;
-    
+    private Vector3 positionToSync;
+    private Vector3 movement;
+    private float magnitude = 0.0f;
+    private bool isMoving = false;
     void Start()
     {
         anim = GetComponent <Animator>();
         groundCheck = GameObject.Find("Ground").GetComponent<Transform>();
         netTransform = GetComponent<NetworkTransform>();
         isLocalPlayer = netTransform.isLocalPlayer;
+        positionToSync = transform.position;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (isLocalPlayer)
         {
             _PlayerMovement(); 
-            Cmd_SendPosition_Rotation(transform.position, transform.rotation, velocity);
+            Cmd_SendPosition_Rotation(transform.position, transform.rotation, velocity, isMoving);
+            LerpPosition();
         }
        
     }
 
+    private void LerpPosition()
+    {
+        if (!isLocalPlayer)
+        {
+//            transform.position = Vector3.Lerp(transform.position, positionToSync, lerpRate);
+            Vector3 deltaPos = positionToSync - transform.position;
+            transform.position = deltaPos * 0.3f;
+        }
+    }
     private void _PlayerMovement()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -57,40 +68,45 @@ public class PlayerMovement : NetworkBehaviour
         if (input.magnitude > 1f)
             input.Normalize();
             
-        var movement = input * speed * Time.deltaTime;
+        movement = input * speed * Time.deltaTime;
             
         controller.Move(movement * speed * Time.deltaTime);
             
         velocity.y += gravity * Time.deltaTime;
             
         controller.Move(velocity * Time.deltaTime);
-        var magnitude = movement.magnitude;
+        magnitude = movement.magnitude;
 
         if (magnitude > 0.1)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(movement.normalized, Vector3.up), 0.25f);
             anim.SetBool("isRunning", true);
+            isMoving = true;
         }
         else if (magnitude == 0)
         {
             anim.SetBool("isRunning", false);
+            isMoving = false;
         }
     }
     [Command]
-    private void Cmd_SendPosition_Rotation(Vector3 localPosition, Quaternion localRotation, Vector3 velocity)
+    private void Cmd_SendPosition_Rotation(Vector3 localPosition, Quaternion localRotation, Vector3 velocity, bool _isMoving)
     {
-        Rpc_SendPosition_Rotation(localPosition, localRotation, velocity);
+        Rpc_SendPosition_Rotation(localPosition, localRotation, velocity, _isMoving);
     }
-
+    
     [ClientRpc]
-    private void Rpc_SendPosition_Rotation(Vector3 localPosition, Quaternion localRotation, Vector3 velocity)
+    private void Rpc_SendPosition_Rotation(Vector3 localPosition, Quaternion localRotation, Vector3 velocity, bool _isMoving)
     {
         if (!isLocalPlayer)
         {
             transform.localPosition = localPosition;
             transform.rotation = localRotation;
             this.velocity = velocity;
+            positionToSync = localPosition;
+            anim.SetBool("isRunning", _isMoving);
         }
     }
+
 }
 

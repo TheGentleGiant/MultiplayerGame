@@ -6,7 +6,7 @@ public class ProjectileController : NetworkBehaviour
     /// <summary>
     /// Sets the owner of the projectile.
     /// </summary>
-    public GameObject Owner { get; set; }
+    public GameObject Owner { get; set; } = null;
 
     [Tooltip("How many seconds the projectile stays alive.")]
     [SerializeField] private float lifeTime = 5f;
@@ -15,12 +15,15 @@ public class ProjectileController : NetworkBehaviour
     [Tooltip("Damage done by the projectile.")]
     [SerializeField] private float damage = 10f;
 
-    private Rigidbody body;
+    private Rigidbody body = null;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody>();
+    }
 
+    public override void OnStartServer()
+    {
         if (lifeTime > 0f)
         {
             Invoke(nameof(DestroyNetwork), lifeTime);
@@ -29,7 +32,8 @@ public class ProjectileController : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        transform.Translate(Vector3.forward * speed * Time.fixedDeltaTime);
+        var position = transform.position + (transform.forward * speed * Time.fixedDeltaTime);
+        body.MovePosition(position);
     }
     
     /// <summary>
@@ -38,7 +42,8 @@ public class ProjectileController : NetworkBehaviour
     [ServerCallback]
     private void OnTriggerEnter(Collider collider)
     {
-        if (Owner == collider.gameObject)
+        // TODO: Currently only collides against players because projectiles spawn in the ground
+        if (collider.tag != "Player" || Owner == collider.gameObject)
             return;
 
         var lifeCycle = collider.gameObject.GetComponent<LifeCycle>();
@@ -48,7 +53,7 @@ public class ProjectileController : NetworkBehaviour
             lifeCycle.Damage(damage);
         }
 
-        NetworkServer.Destroy(gameObject);
+        DestroyNetwork();
     }
 
     /// <summary>

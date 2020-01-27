@@ -9,7 +9,14 @@ public class PlayerCast : NetworkBehaviour
     public bool IsCasting => activeAbility >= 0;
 
     [SerializeField] private ScriptableAbility[] templates = null;
-    private int activeAbility = -1;
+    [SyncVar(hook = "SyncVar_ActiveAbility")] private int activeAbility = -1;
+
+    private Animator animator = null;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     private void Update()
     {
@@ -131,13 +138,14 @@ public class PlayerCast : NetworkBehaviour
         Abilities[abilityIndex].Data.OnCastEnd(this, position);
     }
 
-    //[Client]
-    //public void SyncVar_ActiveAbility(int oldValue, int newValue)
-    //{
-    //    // Invalidated value, nothing to do
-    //    if (newValue == -1)
-    //        return;
-    //}
+    public void SyncVar_ActiveAbility(int oldValue, int newValue)
+    {
+        // Invalidated value, nothing to do
+        if (newValue == -1)
+            return;
+
+        animator.SetTrigger("Cast");
+    }
 
     // HACK: Fast & stupid
     private IEnumerator CastCoroutine(Ability ability, Vector3 position)

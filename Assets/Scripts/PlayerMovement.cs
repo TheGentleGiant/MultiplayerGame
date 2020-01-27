@@ -52,15 +52,6 @@ public class PlayerMovement : NetworkBehaviour
     }
     private void _PlayerMovement()
     {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            anim.SetTrigger("Cast");
-        }
-        if (Input.GetButtonDown("Fire2"))
-        {
-            anim.SetTrigger("Push");
-        }
-                        
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
   
         var input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));

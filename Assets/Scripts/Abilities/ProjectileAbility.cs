@@ -11,7 +11,7 @@ public class ProjectileAbility : ScriptableAbility
         var direction = Vector3.Normalize(position - caster.transform.position);
         var controller = Instantiate(projectilePrefab, caster.transform.position, Quaternion.LookRotation(direction));
 
-        Debug.Log($"cajkcasic");
+        controller.Owner = caster.gameObject;
 
         NetworkServer.Spawn(controller.gameObject);
     }

@@ -234,6 +234,8 @@ namespace Mirror
             networkSceneName = offlineScene;
 
             InitializeSingleton();
+            
+            //Debug.LogError("Awake on NetworkManager");
 
             // setup OnSceneLoaded callback
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -1117,7 +1119,7 @@ namespace Mirror
         void OnServerAddPlayerInternal(NetworkConnection conn, AddPlayerMessage extraMessage)
         {
             if (LogFilter.Debug) Debug.Log("NetworkManager.OnServerAddPlayer");
-
+            Debug.Log(autoCreatePlayer +" "+ playerPrefab);
             if (autoCreatePlayer && playerPrefab == null)
             {
                 Debug.LogError("The PlayerPrefab is empty on the NetworkManager. Please setup a PlayerPrefab object.");

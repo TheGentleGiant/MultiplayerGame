@@ -54,10 +54,10 @@ public class PlayerSimple : NetworkBehaviour
             transform.Translate(-1, 0, 0);
         }
 
-        //if (Input.GetMouseButtonDown(0) && hasAuthority)
-        //{
-        //Cmd_InstantiateNewFireBall();
-        //}
+        if (Input.GetMouseButtonDown(0) && hasAuthority)
+        {
+            Cmd_InstantiateNewFireBall();
+        }
     }
 
     [Command]

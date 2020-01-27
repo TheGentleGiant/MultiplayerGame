@@ -9,8 +9,8 @@ public class PlayerCast : NetworkBehaviour
     public bool IsCasting => activeAbility >= 0;
 
     [SerializeField] private ScriptableAbility[] templates = null;
-    [SyncVar(hook = "SyncVar_ActiveAbility")] private int activeAbility = -1;
 
+    [SyncVar(hook = "Hook_ActiveAbility")] private int activeAbility = -1;
     private Animator animator = null;
 
     private void Awake()
@@ -23,7 +23,7 @@ public class PlayerCast : NetworkBehaviour
         if (!hasAuthority || IsCasting)
             return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Abilities.Count > 0)
             Client_TryCast(0, Client_GetAimPosition());
     }
 
@@ -70,7 +70,7 @@ public class PlayerCast : NetworkBehaviour
         if (!ability.CanCast(this))
             return;
 
-        // Tell server to cast
+        // Ask server to cast, server has authority
         Cmd_Cast(abilityIndex, position);
     }
 
@@ -130,6 +130,18 @@ public class PlayerCast : NetworkBehaviour
     private void Rpc_CastBegin(int abilityIndex, Vector3 position)
     {
         Abilities[abilityIndex].Data.OnCastBegin(this, position);
+
+        // If we're have authority of the casting actor
+        if (hasAuthority)
+        {
+            // Get direction to target position, we don't want the height though
+            var direction = Vector3.Normalize(position - transform.position);
+            direction.y = 0f;
+
+            // Rotate towards target position, the server can't do this for us
+            // and since it's just a visual cue, it's fine if it isn't secure
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
     }
 
     [ClientRpc]
@@ -138,7 +150,8 @@ public class PlayerCast : NetworkBehaviour
         Abilities[abilityIndex].Data.OnCastEnd(this, position);
     }
 
-    public void SyncVar_ActiveAbility(int oldValue, int newValue)
+    [Client]
+    public void Hook_ActiveAbility(int newValue)
     {
         // Invalidated value, nothing to do
         if (newValue == -1)

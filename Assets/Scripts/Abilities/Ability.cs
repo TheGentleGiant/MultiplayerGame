@@ -54,7 +54,7 @@ public struct Ability
     public Ability(ScriptableAbility data)
     {
         NetworkHash = data.Name.GetStableHashCode();
-        CooldownEnd = CastTimeEnd = 0f;
+        CooldownEnd = CastTimeEnd = NetworkTime.time;
     }
 
     public bool CanCast(PlayerCast caster)

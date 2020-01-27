@@ -21,9 +21,11 @@ public class PlayerMovement : NetworkBehaviour
     private Vector3 movement;
     private float magnitude = 0.0f;
     private bool isMoving = false;
+    private PlayerCast cast;
     void Start()
     {
         anim = GetComponent <Animator>();
+        cast = GetComponent<PlayerCast>();
         groundCheck = GameObject.Find("Ground").GetComponent<Transform>();
         netTransform = GetComponent<NetworkTransform>();
         isLocalPlayer = netTransform.isLocalPlayer;
@@ -32,6 +34,10 @@ public class PlayerMovement : NetworkBehaviour
 
     void FixedUpdate()
     {
+        // Block movement when casting
+        if (cast != null && cast.IsCasting)
+            return;
+
         if (isLocalPlayer)
         {
             _PlayerMovement(); 

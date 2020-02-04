@@ -13,11 +13,18 @@ public class LifeCycle : NetworkBehaviour
     [Tooltip("Maximum amount of health.")]
     [SerializeField, SyncVar] private float maxHealth = 100f;
     [SyncVar] private float health = 1f;
-    private Animator animator;
+
+    private Animator animator = null;
+    private new Collider collider = null;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+        collider = GetComponent<Collider>();
+    }
 
     public override void OnStartServer()
     {
-        animator = GetComponent<Animator>();
         health = maxHealth;
     }
 
@@ -47,16 +54,6 @@ public class LifeCycle : NetworkBehaviour
 
         health = Mathf.Min(health + value, maxHealth);
     }
-    
-    /// <summary>
-    /// Exits death state.
-    /// </summary>
-    [Server]
-    public void Revive()
-    {
-        health = maxHealth;
-        animator.SetBool("IsDead", false);
-    }
 
     /// <summary>
     /// Called when the object dies from damage.
@@ -73,5 +70,20 @@ public class LifeCycle : NetworkBehaviour
         // Other scripts can still override this, so we have to check everywhere
         // if the player is dead before doing stuff
         animator.SetBool("IsDead", true);
+        collider.enabled = false;
+    }
+
+    /// <summary>
+    /// Exits death-state.
+    /// </summary>
+    [Server]
+    public void Revive()
+    {
+        if (!IsDead)
+            return;
+
+        health = maxHealth;
+        animator.SetBool("IsDead", false);
+        collider.enabled = true;
     }
 }

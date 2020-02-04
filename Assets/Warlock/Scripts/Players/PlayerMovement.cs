@@ -37,10 +37,6 @@ public class PlayerMovement : NetworkBehaviour
 
     void FixedUpdate()
     {
-        // Block movement when casting
-        if ((cast != null && cast.IsCasting) || (life != null && life.IsDead))
-            return;
-
         if (isLocalPlayer)
         {
             _PlayerMovement(); 
@@ -64,18 +60,23 @@ public class PlayerMovement : NetworkBehaviour
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
   
         var input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-            
+
+        // Block movement input when casting or when dead
+        if ((cast != null && cast.IsCasting) || (life != null && life.IsDead))
+            input = Vector3.zero;
+
         if (input.magnitude > 1f)
             input.Normalize();
             
         movement = input * speed * Time.deltaTime;
             
         controller.Move(movement * speed * Time.deltaTime);
-            
         velocity.y += gravity * Time.deltaTime;
             
         controller.Move(velocity * Time.deltaTime);
         magnitude = movement.magnitude;
+
+        velocity *= 0.96f;
 
         if (magnitude > 0.1)
         {
@@ -89,6 +90,24 @@ public class PlayerMovement : NetworkBehaviour
             isMoving = false;
         }
     }
+
+    public void Knockback(Vector3 force)
+    {
+        var connection = connectionToClient;
+
+        // Server has to tell the client to add knockback if it doesn't have authority
+        if (isServer && !hasAuthority && connection != null)
+        {
+            TargetRpc_Knockback(connection, force);
+            return;
+        }
+
+        velocity += force;
+    }
+
+    [TargetRpc]
+    private void TargetRpc_Knockback(NetworkConnection connection, Vector3 force) => Knockback(force);
+
     [Command]
     private void Cmd_SendPosition_Rotation(Vector3 localPosition, Quaternion localRotation, Vector3 velocity, bool _isMoving)
     {

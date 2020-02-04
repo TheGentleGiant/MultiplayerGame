@@ -574,6 +574,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  players: []
   playerDefaults:
   - Name: Red
     Color: {r: 1, g: 0, b: 0, a: 1}

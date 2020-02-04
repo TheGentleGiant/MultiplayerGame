@@ -55,6 +55,13 @@ public class ProjectileController : NetworkBehaviour
             lifeCycle.Damage(damage);
         }
 
+        var movement = collider.GetComponent<PlayerMovement>();
+
+        if (movement != null)
+        {
+            movement.Knockback(transform.forward * 10f);
+        }
+
         DestroyNetwork();
     }
 

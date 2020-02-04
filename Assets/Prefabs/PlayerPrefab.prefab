@@ -247,6 +247,7 @@ MonoBehaviour:
   castTransform: {fileID: 6067672047753838347}
   templates:
   - {fileID: 11400000, guid: 89b907eb89b9ff1428079b8dc0ad429c, type: 2}
+  - {fileID: 11400000, guid: 3b1fc03a510b1444fb24bdc908205e17, type: 2}
 --- !u!114 &4642932470354863850
 MonoBehaviour:
   m_ObjectHideFlags: 0

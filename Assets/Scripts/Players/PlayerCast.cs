@@ -27,6 +27,8 @@ public class PlayerCast : NetworkBehaviour
 
         if (Input.GetMouseButtonDown(0) && Abilities.Count > 0)
             Client_TryCast(0, Client_GetAimPosition());
+        else if (Input.GetMouseButtonDown(1) && Abilities.Count > 1)
+            Client_TryCast(1, Client_GetAimPosition());
     }
 
     public override void OnStartServer()

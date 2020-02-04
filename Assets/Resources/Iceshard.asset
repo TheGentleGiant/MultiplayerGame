@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b61eb09d0d8796c4d8510be2b8f4f26d, type: 3}
-  m_Name: Fireball
+  m_Name: Iceshard
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: b5f9e4177fc1c8748916f1993cdbdf37, type: 3}
-  Cooldown: 1
-  CastTime: 0.5
-  Range: 1
-  projectilePrefab: {fileID: 1676377858182696795, guid: 70d6826dc256fa64092e3475b79eaf12,
+  Icon: {fileID: 21300000, guid: bbf19677b976e094f95774298d2ca423, type: 3}
+  Cooldown: 1.6
+  CastTime: 0.6
+  Range: 0.6
+  projectilePrefab: {fileID: 3916773738718989417, guid: 0cab9d0ebc866f24f9c0f251dd2a540f,
     type: 3}

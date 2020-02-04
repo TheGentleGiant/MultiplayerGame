@@ -41,13 +41,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3622430963169133870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8aab4c8111b7c411b9b92cf3dbc5bd4e, type: 3}
+  m_Script: {fileID: 11500000, guid: 354eae01607d8324ea8da43177f3b890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   runInBackground: 1
   startOnHeadless: 1
-  serverTickRate: 30
+  serverTickRate: 64
   showDebugMessages: 0
   offlineScene: 
   onlineScene: MainScene
@@ -58,9 +58,10 @@ MonoBehaviour:
   playerPrefab: {fileID: 6272959782674285427, guid: 180072697138d19438ed2ee90261ee14,
     type: 3}
   autoCreatePlayer: 1
-  playerSpawnMethod: 0
+  playerSpawnMethod: 1
   spawnPrefabs:
   - {fileID: 3651120570172119053, guid: 70d6826dc256fa64092e3475b79eaf12, type: 3}
+  - {fileID: 4133267153943479310, guid: 0cab9d0ebc866f24f9c0f251dd2a540f, type: 3}
 --- !u!114 &3622430963169133865
 MonoBehaviour:
   m_ObjectHideFlags: 0

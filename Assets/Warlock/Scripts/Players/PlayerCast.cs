@@ -56,12 +56,6 @@ public class PlayerCast : NetworkBehaviour
 
     public override void OnStartServer()
     {
-        Server_LoadAbilities();
-    }
-
-    [Server]
-    private void Server_LoadAbilities()
-    {
         foreach (var template in templates)
             Abilities.Add(new Ability(template));
     }

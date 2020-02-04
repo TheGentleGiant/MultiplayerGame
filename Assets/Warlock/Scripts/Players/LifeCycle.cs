@@ -1,6 +1,9 @@
 ﻿using Mirror;
 using UnityEngine;
 
+/// <summary>
+/// Handles all things life & death.
+/// </summary>
 public class LifeCycle : NetworkBehaviour
 {
     public bool IsDead => health <= 0f;

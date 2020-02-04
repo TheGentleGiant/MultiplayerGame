@@ -7,30 +7,33 @@ public class NetManager : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
-        // Base creates player, so we call the it first
+        // Base creates the player, so we call it first
         base.OnServerAddPlayer(conn);
 
+        // Get the player component, which contains player data
         var player = conn.identity.GetComponent<Player>();
 
+        // Ensure it exists, otherwise we done goofed
         if (player == null)
         {
             Debug.LogError($"Player prefab doesn't contain a {nameof(Player)} component.");
             return;
         }
 
-        EnsurePlayerManager();
-        playerManager.Register(player);
+        // We need the player manager, can't get it on Awake nor OnServerStart
+        // so we look for it when we need it
+        if (FindPlayerManager())
+            playerManager.Register(player);
     }
 
     public override void OnServerRemovePlayer(NetworkConnection conn, NetworkIdentity identity)
     {
-        EnsurePlayerManager();
-
         var player = identity.GetComponent<Player>();
 
         if (player != null)
         {
-            playerManager.Unregister(player);
+            if (FindPlayerManager())
+                playerManager.Unregister(player);
         }
         else Debug.LogError($"Player prefab doesn't contain a {nameof(Player)} component.");
 
@@ -38,13 +41,16 @@ public class NetManager : NetworkManager
         base.OnServerRemovePlayer(conn, identity);
     }
 
-    private void EnsurePlayerManager()
+    private bool FindPlayerManager()
     {
         if (playerManager == null)
         {
             playerManager = FindObjectOfType<PlayerManager>();
 
             Debug.Assert(playerManager != null, $"Unable to find {nameof(PlayerManager)}.");
+            return playerManager != null;
         }
+
+        return true;
     }
 }

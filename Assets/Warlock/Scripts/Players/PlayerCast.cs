@@ -2,14 +2,35 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Allows the player to cast abilities.
+/// </summary>
 public class PlayerCast : NetworkBehaviour
 {
+    /// <summary>
+    /// Templates from which abilities are loaded.
+    /// </summary>
     public ScriptableAbility[] Templates => templates;
+
+    /// <summary>
+    /// Network-synced list of abilities.
+    /// </summary>
     public SyncListAbility Abilities { get; } = new SyncListAbility();
+
+    /// <summary>
+    /// Whether the player is currently casting an ability.
+    /// </summary>
     public bool IsCasting => activeAbility >= 0;
+
+    /// <summary>
+    /// Position from which projectiles are spawned. 
+    /// Defaults to transform.position if castTransform isn't set.
+    /// </summary>
     public Vector3 CastPosition => castTransform == null ? transform.position : castTransform.position;
 
+    [Tooltip("Transform from which ability projectiles will spawn.")]
     [SerializeField] private Transform castTransform = null;
+    [Tooltip("Ability templates, all abilities must be located in Resources.")]
     [SerializeField] private ScriptableAbility[] templates = null;
 
     [SyncVar(hook = "Hook_ActiveAbility")] private int activeAbility = -1;
@@ -27,9 +48,9 @@ public class PlayerCast : NetworkBehaviour
         if (!hasAuthority || IsCasting || (life != null && life.IsDead))
             return;
 
-        if (Input.GetMouseButtonDown(0) && Abilities.Count > 0)
+        if (Input.GetButtonDown("Primary") && Abilities.Count > 0)
             Client_TryCast(0, Client_GetAimPosition());
-        else if (Input.GetMouseButtonDown(1) && Abilities.Count > 1)
+        else if (Input.GetButtonDown("Secondary") && Abilities.Count > 1)
             Client_TryCast(1, Client_GetAimPosition());
     }
 
@@ -159,10 +180,10 @@ public class PlayerCast : NetworkBehaviour
     [Client]
     public void Hook_ActiveAbility(int newValue)
     {
-        // Invalidated value, nothing to do
-        if (newValue == -1)
+        // Invalid value or no animator, all this does is set animation
+        if (newValue == -1 || animator == null)
             return;
-
+        
         animator.SetTrigger("Cast");
     }
 

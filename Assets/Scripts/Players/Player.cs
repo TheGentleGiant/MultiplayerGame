@@ -7,9 +7,11 @@ public class Player : NetworkBehaviour
 
     [SyncVar] public PlayerData Data;
     public PlayerCast Cast { get; private set; } = null;
+    public LifeCycle Life { get; private set; } = null;
 
     private void Awake()
     {
         Cast = GetComponent<PlayerCast>();
+        Life = GetComponent<LifeCycle>();
     }
 }

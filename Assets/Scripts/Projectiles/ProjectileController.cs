@@ -49,6 +49,9 @@ public class ProjectileController : NetworkBehaviour
 
         if (lifeCycle != null)
         {
+            if (lifeCycle.IsDead)
+                return;
+
             lifeCycle.Damage(damage);
         }
 

@@ -22,10 +22,13 @@ public class PlayerMovement : NetworkBehaviour
     private float magnitude = 0.0f;
     private bool isMoving = false;
     private PlayerCast cast;
+    private LifeCycle life;
+
     void Start()
     {
         anim = GetComponent <Animator>();
         cast = GetComponent<PlayerCast>();
+        life = GetComponent<LifeCycle>();
         groundCheck = GameObject.Find("Ground").GetComponent<Transform>();
         netTransform = GetComponent<NetworkTransform>();
         isLocalPlayer = netTransform.isLocalPlayer;
@@ -35,7 +38,7 @@ public class PlayerMovement : NetworkBehaviour
     void FixedUpdate()
     {
         // Block movement when casting
-        if (cast != null && cast.IsCasting)
+        if ((cast != null && cast.IsCasting) || (life != null && life.IsDead))
             return;
 
         if (isLocalPlayer)
@@ -44,7 +47,6 @@ public class PlayerMovement : NetworkBehaviour
             Cmd_SendPosition_Rotation(transform.position, transform.rotation, velocity, isMoving);
             LerpPosition();
         }
-       
     }
 
     private void LerpPosition()
@@ -56,6 +58,7 @@ public class PlayerMovement : NetworkBehaviour
             transform.position = deltaPos * 0.3f;
         }
     }
+
     private void _PlayerMovement()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -104,6 +107,4 @@ public class PlayerMovement : NetworkBehaviour
             anim.SetBool("isRunning", _isMoving);
         }
     }
-
 }
-

@@ -14,15 +14,17 @@ public class PlayerCast : NetworkBehaviour
 
     [SyncVar(hook = "Hook_ActiveAbility")] private int activeAbility = -1;
     private Animator animator = null;
+    private LifeCycle life = null;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        life = GetComponent<LifeCycle>();
     }
 
     private void Update()
     {
-        if (!hasAuthority || IsCasting)
+        if (!hasAuthority || IsCasting || (life != null && life.IsDead))
             return;
 
         if (Input.GetMouseButtonDown(0) && Abilities.Count > 0)

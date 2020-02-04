@@ -42,11 +42,10 @@ public class ProjectileController : NetworkBehaviour
     [ServerCallback]
     private void OnTriggerEnter(Collider collider)
     {
-        // TODO: Currently only collides against players because projectiles spawn in the ground
-        if (collider.tag != "Player" || Owner == collider.gameObject)
+        if (Owner == collider.gameObject)
             return;
 
-        var lifeCycle = collider.gameObject.GetComponent<LifeCycle>();
+        var lifeCycle = collider.GetComponent<LifeCycle>();
 
         if (lifeCycle != null)
         {

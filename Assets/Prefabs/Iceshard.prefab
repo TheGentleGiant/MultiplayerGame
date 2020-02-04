@@ -4888,8 +4888,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverOnly: 0
-  m_AssetId: 0cab9d0ebc866f24f9c0f251dd2a540f
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 3809813954
 --- !u!114 &3916773738718989417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4906,4 +4906,4 @@ MonoBehaviour:
   syncInterval: 0.1
   lifeTime: 1.5
   speed: 8
-  damage: 15
+  damage: 6

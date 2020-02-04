@@ -3,39 +3,56 @@ using UnityEngine;
 
 public class LifeCycle : NetworkBehaviour
 {
-    [Tooltip("Whether the object hasn't died yet.")]
-    [SerializeField, SyncVar] private bool isAlive = true;
-    [Tooltip("Amount of health of the player.")]
-    [SerializeField, SyncVar] private float health = 100f;
+    public bool IsDead => health <= 0f;
+    public float Health => health;
+    public float MaxHealth => maxHealth;
+
+    [Tooltip("Maximum amount of health.")]
+    [SerializeField, SyncVar] private float maxHealth = 100f;
+    [SyncVar] private float health = 1f;
+
+    public override void OnStartServer()
+    {
+        health = maxHealth;
+    }
 
     /// <summary>
-    /// Damages the life cycle.
+    /// Damages the life-cycle.
     /// </summary>
     [Server]
-    public void Damage(float damage)
+    public void Damage(float value)
     {
-        health = Mathf.Max(0f, health - damage);
+        if (IsDead || value < 0f)
+            return;
 
-        Debug.Log($"{nameof(LifeCycle)}: Player {netId} took {damage} damage ({health} remaining).");
+        health = Mathf.Max(0f, health - value);
 
         if (health <= 0f)
-            Die();
+            Kill();
     }
     
     /// <summary>
-    /// Called when the object dies from loss of health.
+    /// Heals the life-cycle.
     /// </summary>
     [Server]
-    public void Die()
+    public void Heal(float value)
     {
-        isAlive = false;
+        if (IsDead || value < 0f)
+            return;
 
-        Debug.Log($"{nameof(LifeCycle)}: Player {netId} died.");
+        health = Mathf.Min(health + value, maxHealth);
     }
 
     /// <summary>
-    /// Destroys the object on all clients. 
+    /// Called when the object dies from damage.
     /// </summary>
     [Server]
-    private void DestroyNetwork() => NetworkServer.Destroy(gameObject);
+    public void Kill()
+    {
+        // Ensure health is zero
+        health = 0f;
+
+        // TODO: Handle death
+        Debug.Log($"{nameof(LifeCycle)}: Player {netId} died.");
+    }
 }

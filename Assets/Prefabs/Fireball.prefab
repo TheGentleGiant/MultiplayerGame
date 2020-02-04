@@ -127,7 +127,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   lifeTime: 5
-  speed: 5
+  speed: 6
   damage: 10
 --- !u!114 &7389632764605047204
 MonoBehaviour:
@@ -142,8 +142,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverOnly: 0
-  m_AssetId: 70d6826dc256fa64092e3475b79eaf12
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 1121763306
 --- !u!1 &8934370092878550941
 GameObject:
   m_ObjectHideFlags: 0

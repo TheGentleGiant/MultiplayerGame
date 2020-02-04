@@ -23,12 +23,16 @@ public struct Ability
         {
             if (!ScriptableAbility.Cache.ContainsKey(NetworkHash))
                 throw new KeyNotFoundException($"Unable to find hash {NetworkHash} in ability cache.\n" +
-                    $"Ensure abilities are inside the Resourcecs folder.");
+                    $"Ensure abilities are inside the Resources folder.");
 
             return ScriptableAbility.Cache[NetworkHash];
         }
     }
 
+    /// <summary>
+    /// Network Hash calculated from the name of the <see cref="ScriptableAbility"/>.
+    /// <para>Used to reference the abiltiy cross-network.</para>
+    /// </summary>
     public int NetworkHash;
     public double CastTimeEnd;
     public double CooldownEnd;

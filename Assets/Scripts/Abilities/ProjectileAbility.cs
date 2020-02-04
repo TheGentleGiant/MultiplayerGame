@@ -8,8 +8,8 @@ public class ProjectileAbility : ScriptableAbility
 
     public override void Cast(PlayerCast caster, Vector3 position)
     {
-        var direction = Vector3.Normalize(position - caster.transform.position);
-        var controller = Instantiate(projectilePrefab, caster.transform.position, Quaternion.LookRotation(direction));
+        var direction = Vector3.Normalize(position - caster.CastPosition);
+        var controller = Instantiate(projectilePrefab, caster.CastPosition, Quaternion.LookRotation(direction));
 
         controller.Owner = caster.gameObject;
 

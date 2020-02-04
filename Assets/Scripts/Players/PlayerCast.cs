@@ -7,7 +7,9 @@ public class PlayerCast : NetworkBehaviour
     public ScriptableAbility[] Templates => templates;
     public SyncListAbility Abilities { get; } = new SyncListAbility();
     public bool IsCasting => activeAbility >= 0;
+    public Vector3 CastPosition => castTransform == null ? transform.position : castTransform.position;
 
+    [SerializeField] private Transform castTransform = null;
     [SerializeField] private ScriptableAbility[] templates = null;
 
     [SyncVar(hook = "Hook_ActiveAbility")] private int activeAbility = -1;
@@ -43,7 +45,7 @@ public class PlayerCast : NetworkBehaviour
     private Vector3 Client_GetAimPosition()
     {
         // Create a plane at cast position facing upwards
-        var plane = new Plane(Vector3.up, transform.position);
+        var plane = new Plane(Vector3.up, CastPosition);
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         // Raycast from the plane

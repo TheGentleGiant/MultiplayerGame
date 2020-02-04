@@ -16,5 +16,5 @@ MonoBehaviour:
   Cooldown: 1
   CastTime: 0.5
   Range: 1
-  projectilePrefab: {fileID: 3441241106791693505, guid: fd2e1dfe6f276b743b2fc51deddb160e,
+  projectilePrefab: {fileID: 1676377858182696795, guid: 70d6826dc256fa64092e3475b79eaf12,
     type: 3}

@@ -13,7 +13,7 @@ public abstract class ScriptableAbility : ScriptableObject
 
     public virtual bool CanCast(PlayerCast player)
     {
-        return true;
+        return !player.IsCasting;
     }
 
     /// <summary>

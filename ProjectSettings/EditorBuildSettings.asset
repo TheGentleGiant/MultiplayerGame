@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/S_MainMenu.unity
+    path: Assets/Warlock/Scenes/S_MainMenu.unity
     guid: df25b0033f0760042808e1d8cad42ba7
   - enabled: 1
-    path: Assets/Scenes/MainScene.unity
+    path: Assets/Warlock/Scenes/MainScene.unity
     guid: ae82095e9e1937f458d97e19cbf9514f
   m_configObjects: {}

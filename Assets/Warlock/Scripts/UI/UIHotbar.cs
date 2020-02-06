@@ -22,10 +22,21 @@ public class UIHotbar : MonoBehaviour
 
         for (var i = 0; i < numAbilities; i++)
         {
-            var slot = transform.GetChild(i).GetComponent<UIHotbarSlot>();
+            var child = transform.GetChild(i);
+            var slot = child.GetComponent<UIHotbarSlot>();
 
-            if (slot == null)
+            if (slot == null || slot.Icon == null || slot.Cooldown == null)
+            {
+                // De-activate since it's invalid
+                child.gameObject.SetActive(false);
                 continue;
+            }
+            else if (!child.gameObject.activeSelf)
+            {
+                // If the slot has become valid after being de-activated
+                // we need to enable it again
+                child.gameObject.SetActive(true);
+            }
 
             var template = player.Cast.Abilities[i];
 

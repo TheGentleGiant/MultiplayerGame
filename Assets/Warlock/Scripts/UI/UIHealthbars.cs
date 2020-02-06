@@ -25,7 +25,7 @@ public class UIHealthbars : MonoBehaviour
             var child = transform.GetChild(i);
             var bar = child.GetComponent<UIHealthbar>();
 
-            if (player == null || player.Life == null || bar == null)
+            if (player == null || player.Life == null || bar == null || bar.FillImage == null)
             {
                 child.gameObject.SetActive(false);
                 continue;

@@ -24,9 +24,8 @@ public class UIHealthbars : MonoBehaviour
             var player = players[i];
             var child = transform.GetChild(i);
             var bar = child.GetComponent<UIHealthbar>();
-            var position = Camera.main.WorldToScreenPoint(player.transform.position + offset);
 
-            if (bar == null || player.Life == null)
+            if (player == null || player.Life == null || bar == null)
             {
                 child.gameObject.SetActive(false);
                 continue;
@@ -37,7 +36,7 @@ public class UIHealthbars : MonoBehaviour
             }
 
             bar.FillImage.fillAmount = (player.Life.Health / player.Life.MaxHealth);
-            bar.transform.position = position;
+            bar.transform.position = Camera.main.WorldToScreenPoint(player.transform.position + offset);
         }
     }
 

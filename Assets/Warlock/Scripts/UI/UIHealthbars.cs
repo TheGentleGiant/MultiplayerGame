@@ -9,7 +9,7 @@ public class UIHealthbars : MonoBehaviour
     {
         var players = Player.Players;
 
-        if (players == null || players.Count <= 0)
+        if (players == null || players.Count <= 0 || healthbarPrefab == null)
         {
             // Make sure to remove healthbars if we leave
             ResetInstances(0);

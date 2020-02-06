@@ -8,7 +8,7 @@ public class UIHotbar : MonoBehaviour
     {
         var player = Player.Local;
 
-        if (player == null)
+        if (player == null || slotPrefab == null)
         {
             // Remove all instances to get rid of the UI
             ResetInstances(0);

@@ -58,7 +58,7 @@ public class PlayerMovement : NetworkBehaviour
     private void _PlayerMovement()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-  
+
         var input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 
         // Block movement input when casting or when dead

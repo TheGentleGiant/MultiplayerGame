@@ -5,6 +5,7 @@ public class ProjectileController : NetworkBehaviour
 {
     /// <summary>
     /// Sets the owner of the projectile.
+    /// <para>Server-side only.</para>
     /// </summary>
     public GameObject Owner { get; set; } = null;
 
@@ -46,6 +47,7 @@ public class ProjectileController : NetworkBehaviour
             return;
 
         var lifeCycle = collider.GetComponent<LifeCycle>();
+        var movement = collider.GetComponent<PlayerMovement>();
 
         if (lifeCycle != null)
         {
@@ -54,8 +56,6 @@ public class ProjectileController : NetworkBehaviour
 
             lifeCycle.Damage(damage);
         }
-
-        var movement = collider.GetComponent<PlayerMovement>();
 
         if (movement != null)
         {

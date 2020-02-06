@@ -31,7 +31,7 @@ public struct Ability
 
     /// <summary>
     /// Network Hash calculated from the name of the <see cref="ScriptableAbility"/>.
-    /// <para>Used to reference the abiltiy cross-network.</para>
+    /// <para>Used to reference the ability cross-network.</para>
     /// </summary>
     public int NetworkHash;
     public double CastTimeEnd;

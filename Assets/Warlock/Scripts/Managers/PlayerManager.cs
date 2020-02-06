@@ -21,6 +21,8 @@ public struct PlayerData
 /// </summary>
 public class PlayerManager : NetworkBehaviour
 {
+    public Player[] Players => players;
+
     [SerializeField] private Player[] players = null;
     [SerializeField] private PlayerData[] playerDefaults =
     {

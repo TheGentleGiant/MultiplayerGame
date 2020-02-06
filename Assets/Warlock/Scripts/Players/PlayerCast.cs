@@ -100,8 +100,7 @@ public class PlayerCast : NetworkBehaviour
     {
         var ability = Abilities[abilityIndex];
 
-        // Even if the client thinks it can cast
-        // it might not be able to
+        // Even if the client thinks it can cast it might not be able to
         if (!ability.CanCast(this))
             return;
 
@@ -134,7 +133,7 @@ public class PlayerCast : NetworkBehaviour
     [Server]
     private void Server_CastEnd(Ability ability, Vector3 position)
     {
-        // Set end of cast time to now + cast time
+        // Set end of cooldown to now + cooldown duration
         ability.CooldownEnd = NetworkTime.time + ability.Cooldown;
 
         // We've updated a struct, replace old one

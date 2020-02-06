@@ -15,12 +15,10 @@ public class LifeCycle : NetworkBehaviour
     [SyncVar] private float health = 1f;
 
     private Animator animator = null;
-    private new Collider collider = null;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        collider = GetComponent<Collider>();
     }
 
     public override void OnStartServer()
@@ -67,10 +65,8 @@ public class LifeCycle : NetworkBehaviour
         // TODO: Handle death
         Debug.Log($"{nameof(LifeCycle)}: Player {netId} died.");
 
-        // Other scripts can still override this, so we have to check everywhere
-        // if the player is dead before doing stuff
-        animator.SetBool("IsDead", true);
-        collider.enabled = false;
+        // Let clients know we died
+        Rpc_OnDeath();
     }
 
     /// <summary>
@@ -82,8 +78,34 @@ public class LifeCycle : NetworkBehaviour
         if (!IsDead)
             return;
 
+        // Reset health
         health = maxHealth;
+
+        // Let clients know we've been revived
+        Rpc_OnRevive();
+    }
+
+    /// <summary>
+    /// Called on clients on death.
+    /// </summary>
+    [ClientRpc]
+    public void Rpc_OnDeath()
+    {
+        if (animator == null)
+            return;
+
+        animator.SetBool("IsDead", true);
+    }
+
+    /// <summary>
+    /// Called on clients on revive.
+    /// </summary>
+    [ClientRpc]
+    public void Rpc_OnRevive()
+    {
+        if (animator == null)
+            return;
+
         animator.SetBool("IsDead", false);
-        collider.enabled = true;
     }
 }

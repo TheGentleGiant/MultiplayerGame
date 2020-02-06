@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using System.Collections.Generic;
 
 /// <summary>
 /// Provides quick references to all player related behaviours.
@@ -12,6 +13,11 @@ public class Player : NetworkBehaviour
     public static Player Local { get; private set; } = null;
 
     /// <summary>
+    /// Static list of all players, quick access, order doesn't matter.
+    /// </summary>
+    public static List<Player> Players { get; private set; } = new List<Player>();
+
+    /// <summary>
     /// Network-synced player data.
     /// </summary>
     [SyncVar] public PlayerData Data;
@@ -22,13 +28,25 @@ public class Player : NetworkBehaviour
 
     private void Awake()
     {
+        // We don't nullcheck these, not all of them have to exist
         Cast = GetComponent<PlayerCast>();
         Life = GetComponent<LifeCycle>();
         Movement = GetComponent<PlayerMovement>();
     }
 
-    /// <summary>
-    /// Sets <see cref="Local"/> to this instance.
-    /// </summary>
+    public override void OnStartClient()
+    {
+        // Clients keep track of every player for UI purposes
+        // Server has a manager for this since it needs to be properly set up
+        if (!Players.Contains(this))
+            Players.Add(this);
+    }
+
+    public override void OnNetworkDestroy()
+    {
+        if (Players.Contains(this))
+            Players.Remove(this);
+    }
+
     public override void OnStartLocalPlayer() => Local = this;
 }
